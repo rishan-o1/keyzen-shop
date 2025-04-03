@@ -6,18 +6,6 @@
 
   # Keyzen Furniture Shop
 
-  <p align="center">
-    Elevate Your Home with Exquisite Furniture
-    <br />
-    <a href="https://keyzen.shop"><strong>www.keyzen.shop »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/mskcmd/keyzen-shop">View Demo</a>
-    ·
-    <a href="https://github.com/mskcmd/keyzen-shop/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/mskcmd/keyzen-shop/issues">Request Feature</a>
-  </p>
 
   [![GitHub license](https://img.shields.io/github/license/mskcmd/keyzen-shop.svg)](https://github.com/mskcmd/keyzen-shop/blob/master/LICENSE)
   [![GitHub release](https://img.shields.io/github/release/mskcmd/keyzen-shop.svg)](https://github.com/mskcmd/keyzen-shop/releases/)
