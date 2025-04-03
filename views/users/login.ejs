@@ -1,0 +1,116 @@
+<%- include('../users/layouts/navbar') %>
+
+<!-- End .header -->
+<style></style>
+<main class="main">
+  <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+    <div class="container">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Login</li>
+      </ol>
+    </div>
+    <!-- End .container -->
+  </nav>
+  <!-- End .breadcrumb-nav -->
+
+  <div
+    class="login-page bg-image pt-14 pb-6 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
+    style="
+      background-image: url('/user/assets/images/backgrounds/login-bg.jpg');
+      height: 100%;
+    "
+  >
+    >
+
+    <div class="container-fluid" style="height: 650px; overflow: hidden">
+      <div class="form-box">
+        <div class="form-tab text-center">
+          <h3 class="mb-3">Sign In</h3>
+        </div>
+        <div class="text-center mt-3">
+          <button id="fill-test-credentials" class="btn btn-secondary">Use Test Credentials</button>
+        </div>
+        <form action="login" method="post" id="loginForm">
+          <div class="form-group">
+            <label for="singin-email-2" class="mb-2"
+              >Username or email address *</label
+            >
+            <input type="text" class="form-control" id="email" name="email" />
+          </div>
+          <!-- End .form-group -->
+
+          <div class="form-group">
+            <label for="singin-password-2" class="mb-2">Password *</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+            />
+          </div>
+          <!-- End .form-group -->
+
+          <div class="form-footer">
+            <button type="submit" class="btn btn-primary btn-block">
+              <span>LOG IN</span>
+            </button>
+
+            <div class="text-center mt-3">
+              <a href="/forgetpassword" class="forgot-link"
+                >Forgot Your Password?</a
+              >
+            </div>
+            <div class="text-center ml-5 mt-3">
+              <p class="text-center">
+                Not a member? <a href="/register">Sign Up</a>
+              </p>
+            </div>
+          </div>
+        </form>
+        <p
+          id="error-message"
+          class="error-message alert-danger text-center"
+        ></p>
+
+        <% if (typeof message !=="undefined" ) { %>
+        <div class="alert alert-primary mt-3" role="alert">
+          <!-- Replace the message with your dynamic message -->
+          <%= message %>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- Test Button -->
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var loginForm = document.getElementById("loginForm");
+      var errorMessage = document.getElementById("error-message");
+
+      loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        var emailValue = document.getElementById("email").value.trim();
+        var passwordValue = document.getElementById("password").value.trim();
+
+        if (emailValue === "" || passwordValue === "") {
+          errorMessage.textContent = " Please fill in both email and password.";
+        } else {
+          errorMessage.textContent = "";
+
+          loginForm.submit();
+        }
+      });
+
+      // Fill Test Credentials
+      var fillTestButton = document.getElementById("fill-test-credentials");
+      fillTestButton.addEventListener("click", function () {
+        document.getElementById("email").value = "test@gmail.com";
+        document.getElementById("password").value = "Abcd@123";
+      });
+    });
+  </script>
+</main>

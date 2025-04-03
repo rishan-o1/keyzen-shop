@@ -1,0 +1,340 @@
+
+
+<%- include('../users/layouts/userHeader') %>
+
+<main class="main">
+  <div
+    class="page-header text-center"
+    style="background-image: url('/user/assets/images/page-header-bg.jpg')"
+  >
+    <div class="container">
+      <h1 class="page-title">KEYZEN<span>Shop</span></h1>
+    </div>
+    <!-- End .container -->
+  </div>
+  <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+      <div class="container">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              
+              <li class="breadcrumb-item active" aria-current="page">Shop</li>
+          </ol>
+      </div><!-- End .container -->
+  </nav><!-- End .breadcrumb-nav -->
+
+  <div class="page-content">
+      <div class="container">
+          <div class="toolbox">
+              <div class="toolbox-left">
+                <a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
+              </div><!-- End .toolbox-left -->
+
+             
+
+             
+          </div><!-- End .toolbox -->
+
+          <div class="products">
+              <div class="row">
+                  <% products.forEach((data)=>{ %>
+                  <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                      <div class="product">
+                          <figure class="product-media">
+                            <% if (data.offer !== null) { %>
+                            <span class="product-label label-sale">
+                              
+                              <%= data.offer.percentages %> % OFF
+                               </span>        
+                                <% } %>
+                              <a href="/productdeteal?id=<%=data._id%>">
+                                  <img src="/products/crope/<%= data.images.image1 %>" alt="Product image" class="product-image">
+                                  <img src="/products/crope/<%= data.images.image1%>" alt="Product image" class="product-image-hover">
+                              </a>
+
+                              <div class="product-action-vertical">
+                                  <a onclick="addWishlist('<%= data._id%>')" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                              </div><!-- End .product-action -->
+
+                              <div class="product-action action-icon-top">
+                                <% if(data.quantity==0) { %>
+
+                                  <a class="btn-product btn-cart" id="noStockBtn"
+
+                                    class="btn-product btn-cart">
+                                    <span>No Stock</span>
+                                  </a>
+                                  <a href="/productdeteal?id=<%=data._id%>" class="btn-product icon-long-arrow-right"  title="View Product"><span>view product</span></a>
+                                  <% } else { %>
+
+                                  <a onclick="addToCart('<%= data._id%>')" class="btn-product btn-cart"  data-product-id="<%=data._id %>"
+                                    class="btn-product btn-cart"><span>add to cart</span></a>
+                                  <a href="/productdeteal?id=<%=data._id%>" class="btn-product icon-long-arrow-right"   class="btn-product btn-cart" title="View Product"><span>view product</span></a>
+                                  <% } %>
+
+                                  <!-- <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a> -->
+                              </div><!-- End .product-action -->
+                          </figure><!-- End .product-media -->
+
+                          <div class="product-body">
+                              <div class="product-cat">
+                                  <a href=""><%= data.categoryName %>></a>
+                              </div><!-- End .product-cat -->
+                              <h3 class="product-title"><a href="/productView?id=<%=data._id%>"><%= data.name %></a></h3><!-- End .product-title -->
+                              <div class="product-price">
+                                <% if (data.offer == null) { %>
+                                  ₹&nbsp <%= data.price %>
+                                <% } else{ %>
+                                 <p style="color: red;"><S >₹&nbsp <%= data.price %> </S></p> &nbsp&nbsp&nbsp&nbsp₹&nbsp<%= data.discount %>
+                                <% } %>
+                                 <% if(data.quantity == 0){ %>
+                                  &nbsp&nbsp<p style="color: red;">(Out of stock !)</p>
+                                  <% }else if(data.quantity < 10){ %>
+                                      &nbsp&nbsp<p style="color: red;">(Only&nbsp <%= data.quantity %> &nbsp left !)</p>
+                                      <% } %>
+                              </div><!-- End .product-price -->
+                              
+                              
+                              
+                          </div><!-- End .product-body -->
+                      </div><!-- End .product -->
+                  </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
+                  <% }) %>
+
+              </div><!-- End .row -->
+              <% if(totalPages !== 0){ %>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination d-flex justify-content-center">
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <% for(let i=1; i<=totalPages; i++){ %>
+                      <li class="page-item">
+                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                      </li>
+                    <% } %>
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              <% } %>
+              
+           
+          </div><!-- End .products -->
+          <div class="container">
+            <form action="/filterproduct" method="post" >
+              <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
+              <aside class="sidebar-shop sidebar-filter">
+                <div class="sidebar-filter-wrapper">
+                    <div class="widget widget-clean">
+                      <label><i class="icon-close"></i>Filters</label>
+                      <a href="#" class="sidebar-filter-clear">Clean All</a>
+                  </div>
+                  <div class="widget widget-collapsible">
+                    <h3 class="widget-title">
+                      <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
+                        Category
+                      </a>
+                    </h3>
+                    <div class="collapse show" id="widget-1">
+                      <div class="widget-body">
+                        <div class="filter-items filter-items-count">
+                            <div class="filter-item">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" name="category" checked class="custom-control-input" id="allCate" value="allCate">
+                                <label class="custom-control-label" for="allCate">All Categories</label>
+                              </div>
+                              </div>
+                              <% if(category.length != 0) {
+                                category.forEach((data, i) => { %>
+                          <div class="filter-item">
+                            <div class="custom-control custom-checkbox">
+                              <input type="radio" name="category" class="custom-control-input" id="<%= 'cat-' + i %>" value="<%= data.name %>">
+                              <label class="custom-control-label" for="<%= 'cat-' + i %>"><%= data.name %></label>
+                            </div>
+                          </div>
+                          <% })
+                              } %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          
+                  <div class="widget widget-collapsible">
+                    <h3 class="widget-title">
+                      <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
+                        Prices
+                      </a>
+                    </h3>
+                    <div class="collapse show" id="widget-2">
+                      <div class="widget-body">
+                        <div class="filter-items filter-items-count">
+                          <div class="filter-item">
+                            <div class="custom-control custom-checkbox">
+                              <input type="radio" name="price" class="custom-control-input" checked id="allPrices" value="1">
+                              <label class="custom-control-label" for="allPrices">All Prices</label>
+                            </div>
+                          </div>
+                          <div class="filter-item">
+                            <div class="custom-control custom-checkbox">
+                              <input type="radio" name="price" class="custom-control-input" id="lowToHigh" value="1">
+                              <label class="custom-control-label" for="lowToHigh">Low to high</label>
+                            </div>
+                          </div>
+                          <div class="filter-item">
+                            <div class="custom-control custom-checkbox">
+                              <input type="radio" name="price" class="custom-control-input" id="highToLow" value="-1">
+                              <label class="custom-control-label" for="highToLow">High to Low</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          
+                  <button type="submit" >Done</button> 
+                </div>
+              </aside>
+            </form>
+          </div>
+          
+
+
+          
+            <% if(products.length == 0 ){ %>
+            <div class="error-content text-center">
+              <div class="container">
+                <h1 class="error-title">Empty.</h1>
+                <!-- End .error-title -->
+                <p>Sorry, There is no products in kyzen.</p>
+              </div>
+              <!-- End .container -->
+            </div>
+
+            <% } %>
+            
+            
+            
+            
+  </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+<!-- Add these script tags to include Bootstrap JavaScript -->
+<!-- Add these script tags to include Bootstrap JavaScript and jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+<script>
+
+$(document).ready(function() {
+  $('.sidebar-toggler').on('click', function() {
+    // Add code to toggle the sidebar visibility
+    $('.sidebar-shop').toggleClass('active');
+  });
+});
+
+  $(document).ready(function () {
+    $("#noStockBtn").on("click", function () {
+      Swal.fire({
+        title: "Error",
+        text: "No stock available.",
+        icon: "error",
+      });
+      // You can replace Swal.fire with a more sophisticated UI element or action.
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    // Use querySelectorAll to select all elements with the class 'btn-cart'
+    var addToCartButtons = document.querySelectorAll(".btn-cart");
+
+    // Add a click event listener to each button
+    addToCartButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        var productId = this.getAttribute("data-product-id");
+
+        // Use fetch to send a POST request with the product ID in the request body
+        $.ajax({
+          url: "/addtocart",
+          method: "post",
+          data: { id: productId },
+          success: (response) => {
+            console.log(response);
+            if (response.noUser) {
+              window.location.href = "/login";
+            }
+
+            if (response.added) {
+              Swal.fire({
+                title: "Item Added in Cart!",
+                text: "You clicked the button!",
+                icon: "success",
+              });
+            }
+            if (response.nostoked) {
+              Swal.fire({
+                title: "Error",
+                text: "out of stock.you have added the entire stock th the cart",
+                icon: "error",
+              });
+            }
+          },
+        });
+      });
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+function addWishlist(productId) {
+    $.ajax({
+      url: "/addToWishlist",
+      method: "post",
+      data: {
+        id: productId,
+      },
+      success: (response) => {
+        if (response.login == true) {
+          swal
+            .fire({
+              icon: "warning",
+              title: "Please Login",
+              confirmButtonText: "Login",
+              showCancelButton: true,
+              cancelButtonColor: "#d33",
+              text: response.message,
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "/login";
+              }
+            });
+        } else if (response.exist == true) {
+          swal.fire({
+            position: "center",
+            icon: "warning",
+            title: "This product already in your wishlist",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else if (response.success) {
+          swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Product added to your Wishlist",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      },
+    });
+  }
+  </script>
+<%- include('../users/layouts/footer') %>

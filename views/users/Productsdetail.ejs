@@ -1,0 +1,280 @@
+<%- include('../users/layouts/userHeader') %>
+
+
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container d-flex align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/product">Products</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Centered</li>
+                    </ol>
+
+                    
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-details-top mb-2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="product-gallery product-gallery-vertical">
+                                    
+                                    <div class="row">
+                                        
+                                        <figure class="product-main-image">
+                                            <% if (product.offer !== null) { %>
+                                                <span class="product-label label-sale">
+                                                  
+                                                  <%= product.offer.percentages %> % OFF
+                                                   </span>        
+                                                    <% } %>
+                                            <img id="product-zoom"
+                                            src="/products/crope/<%= product.images.image1 %>"
+                                            data-zoom-image="/products/images/<%= product.images.image1 %>"
+                                            alt="product image">
+                                            <a href="#" id="btn-product-gallery" class="btn-product-gallery">
+                                                <i class="icon-arrows"></i>
+                                            </a>
+                                        </figure><!-- End .product-main-image -->
+
+                                        <div id="product-zoom-gallery" class="product-image-gallery">
+                                            <a class="product-gallery-item active" href="#" 
+                                            data-image="/products/crope/<%= product.images.image1 %>"
+                                            data-zoom-image="/products/images/<%= product.images.image1 %>">
+                                            <img src="/products/crope/<%= product.images.image1 %>"
+                                                alt="product side">
+                                            </a>
+
+                                            <a class="product-gallery-item" href="#" 
+                                            data-image="/products/crope/<%= product.images.image2 %>"
+                                            data-zoom-image="/products/images/<%= product.images.image2 %>">
+                                            <img src="/products/crope/<%= product.images.image2 %>"
+                                                 alt="product with model">
+                                            </a>
+
+                                            <a class="product-gallery-item" href="#" 
+                                            data-image="/products/crope/<%= product.images.image3 %>"
+                                            data-zoom-image="/products/images/<%= product.images.image3 %>">
+                                            <img src="/products/crope/<%= product.images.image3 %>"
+                                                 alt="product with model">
+                                            </a>
+
+                                            <a class="product-gallery-item" href="#" 
+                                            data-image="/products/crope/<%= product.images.image3 %>"
+                                            data-zoom-image="/products/images/<%= product.images.image3 %>">
+                                            <img src="/products/crope/<%= product.images.image3 %>"
+                                             alt="product back">
+                                            </a>
+                                        </div><!-- End .product-image-gallery -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .product-gallery -->
+                            </div><!-- End .col-md-6 -->
+
+                            <div class="col-md-6">
+                                <div class="product-details product-details-centered">
+                                    <h1 class="product-title"><%= product.name %></h1><!-- End .product-title -->
+
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                                    </div><!-- End .rating-container -->
+                                    <div class="">
+                                        <%= product.categoryName%>
+                                    </div><!-- End .product-price -->
+                                    <div class="product-price">
+                                        <% if (product.offer == null) { %>
+
+                                        ₹<%= product.price%>
+                                        <% } else{ %>
+                                            <S style="color: red;">₹&nbsp <%= product.price %> </S> &nbsp&nbsp&nbsp&nbsp₹&nbsp<%= product.discount %>
+                                <% } %>
+                                    </div><!-- End .product-price -->
+
+                                    <div class="product-content">
+                                        <p>  <%= product.description%></p>
+                                    </div><!-- End .product-content -->
+
+
+                                  
+                                    <div class="product-details-action">
+                                        <div class="details-action-col">
+                                            <% if(product.quantity==0) { %>
+                                                <a style="cursor: pointer;" class="btn-product btn-cart text-danger" id="noStockBtn">
+                                                    <span>No Stock</span>
+                                                </a>
+                                                <% } else { %>
+
+                                          
+                                            <a href="#"  id="addtocart" data-product-id ="<%=product._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            <% } %>
+
+                                        </div>
+
+                                        <div class="details-action-wrapper">
+                                            <a onclick="addWishlist('<%= product._id%>')" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                            <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a>
+                                        </div><!-- End .details-action-wrapper -->
+                                    </div><!-- End .product-details-action -->
+
+                                  
+                                </div><!-- End .product-details -->
+                            </div><!-- End .col-md-6 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .product-details-top -->
+
+                
+
+                    <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":1
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":4,
+                                    "nav": true,
+                                    "dots": false
+                                }
+                            }
+                        }'>
+                
+                      
+                     
+                    </div><!-- End .owl-carousel -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+      
+    </div><!-- End .page-wrapper -->
+      <script src="/user/assets/js/jquery.elevateZoom.min.js"></script>
+
+    <script>
+
+$('#product-zoom').elevateZoom({
+    zoomType: "inner",
+    cursor: "crosshair",
+    gallery: 'product-zoom-gallery',
+    galleryActiveClass: 'active',
+});
+
+
+        $(document).ready(function () {
+            $('#noStockBtn').on('click', function () {
+                Swal.fire({
+                    title: "Error",
+                    text: "No stock available.",
+                    icon: "error"
+                });
+                // You can replace Swal.fire with a more sophisticated UI element or action.
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            // Use querySelectorAll to select all elements with the class 'btn-cart'
+            var addToCartButtons = document.querySelectorAll('.btn-cart');
+    
+            // Add a click event listener to each button
+            addToCartButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var productId = this.getAttribute('data-product-id');
+                    
+    
+                    // Use fetch to send a POST request with the product ID in the request body
+                    $.ajax({
+                        url:'/addtocart',
+                        method:"post",
+                        data:{id:productId},
+                        success:((response)=>{
+                            console.log(response);
+                         if(response.noUser){
+                            window.location.href = "/login"
+                        }
+    
+                        if(response.added){
+    
+                           Swal.fire({
+                            title: "Item Added in Cart!",
+                            text: "You clicked the button!",
+                            icon: "success"
+                        });
+                        }
+                       if(response.nostoked){
+                        Swal.fire({
+                    title: "Error",
+                    text: "out of stock.you have added the entire stock th the cart",
+                    icon: "error"
+                });                    }
+                        })
+                    })
+            
+                });
+            });
+        });
+    </script>   
+  <script>
+
+    function addWishlist(productId) {
+        $.ajax({
+          url: "/addToWishlist",
+          method: "post",
+          data: {
+            id: productId,
+          },
+          success: (response) => {
+            if (response.login == true) {
+              swal
+                .fire({
+                  icon: "warning",
+                  title: "Please Login",
+                  confirmButtonText: "Login",
+                  showCancelButton: true,
+                  cancelButtonColor: "#d33",
+                  text: response.message,
+                })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = "/login";
+                  }
+                });
+            } else if (response.exist == true) {
+              swal.fire({
+                position: "center",
+                icon: "warning",
+                title: "This product already in your wishlist",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            } else if (response.success) {
+              swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Product added to your Wishlist",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          },
+        });
+      }
+      </script>
+  
+    <%- include('../users/layouts/footer') %>
+
+ 

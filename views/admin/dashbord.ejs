@@ -1,0 +1,388 @@
+<%- include('../admin/layouts/adminsidebars') %>
+<%- include('../admin/layouts/adminnavebar') %>
+<!-- Add this script tag to include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+
+
+
+<div class="main-panel">
+  <div class="content-wrapper">
+
+    <div class="row">
+      <div class="col-sm-4 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h5>Total Revenue</h5>
+            <div class="row">
+              <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                    <h2 class="mb-0">₹&nbsp;<%=totalRevenue%>.00</h2>
+               
+                </div>
+               
+              </div>
+              <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                <i class="icon-lg mdi mdi-account-multiple text-primary ml-auto"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h5>Monthly Revenue</h5>
+            <div class="row">
+              <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                  <h2 class="mb-0">₹&nbsp;<%= monRev %>.00</h2>
+                 
+                </div>
+                
+              </div>
+              <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                <i class="icon-lg mdi mdi-truck-delivery text-danger ml-auto"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h5>Total Sales</h5>
+            <div class="row">
+              <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                  <h2 class="mb-0">&nbsp;<%= sales %></h2>
+                 
+                </div>
+                
+              </div>
+              <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                <i class="icon-lg mdi mdi-gift text-success ml-auto"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+    <div class="row">
+
+      <div class="col-md-4 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Transactions</h4>
+            <canvas id="transactions" class="transaction-chart"></canvas>
+            <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+              <div class="text-md-center text-xl-left">
+                <h6 class="mb-1">Cash On Delivery</h6>
+              </div>
+              <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                <h6 class="font-weight-bold mb-0"><%= codCount %></h6>
+              </div>
+            </div>
+            <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+              <div class="text-md-center text-xl-left">
+                <h6 class="mb-1">Online Payment</h6>
+              </div>
+              <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                <h6 class="font-weight-bold mb-0"><%=onlinePaymentCount%></h6>
+              </div>
+            </div>
+            <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+              <div class="text-md-center text-xl-left">
+                <h6 class="mb-1">Wallet</h6>
+              </div>
+              <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                <h6 class="font-weight-bold mb-0"><%=walletCount%></h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+        <div class="col-lg-8 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Transactions Graf</h4>
+              <canvas id="monthChart" style="height:200px"></canvas>
+              <div class="d-flex justify-content-end mt-3">
+                <!-- Button 1 -->
+                <button type="button" class="btn btn-success mr-2" onclick="filterData('week')">Last Week</button>
+                <!-- Button 2 -->
+                <button type="button" class="btn btn-success mr-2" onclick="filterData('month')">Last Month</button>
+                <!-- Button 3 -->
+                <button type="button" class="btn btn-success" onclick="filterData('year')">Last Year</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+              <div class="card-body">
+                  <h4 class="card-title">Weekly Sales Graph</h4>
+                  <!-- Add canvas for the weekly sales graph -->
+<canvas id="weeklySalesGraph" style="height: 200px"></canvas>
+              </div>
+          </div>
+      </div>
+  
+    
+     
+      
+      
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h5>Total Customers</h5>
+              <div class="row">
+                <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                  <div class="d-flex d-sm-block d-md-flex align-items-center">
+                    <h2 class="mb-0"><%= totalUser %>&nbsp; Users</h2>
+                    <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                  </div>
+                  <h6 class="text-muted font-weight-normal">Active KEYZEN users</h6>
+                </div>
+                <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                  <i class="icon-lg mdi mdi-account-multiple text-primary ml-auto"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h5>Total Orders</h5>
+              <div class="row">
+                <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                  <div class="d-flex d-sm-block d-md-flex align-items-center">
+                    <h2 class="mb-0"><%= totalOrder.length %>&nbsp;Orders</h2>
+                    <p class="text-success ml-2 mb-0 font-weight-medium">+8.3%</p>
+                  </div>
+                  <h6 class="text-muted font-weight-normal"> Active orders Since last month</h6>
+                </div>
+                <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                  <i class="icon-lg mdi mdi-truck-delivery text-danger ml-auto"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h5>Total Products</h5>
+              <div class="row">
+                <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                  <div class="d-flex d-sm-block d-md-flex align-items-center">
+                    <h2 class="mb-0"><%= products.length %>&nbsp;Products</h2>
+                    <p class="text-danger ml-2 mb-0 font-weight-medium">-2.1% </p>
+                  </div>
+                  <h6 class="text-muted font-weight-normal">In stock Products</h6>
+                </div>
+                <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                  <i class="icon-lg mdi mdi-gift text-success ml-auto"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    <input type="text" id="cod" value="<%= codCount %>" hidden>
+    <input type="text" id="wallet" value="<%= walletCount %>" hidden>
+    <input type="text" id="online" value="<%= onlinePaymentCount %>" hidden>
+    
+
+    <input type="text" id="jan" value="<%= data[0] %>" hidden>
+    <input type="text" id="feb" value="<%= data[1] %>" hidden>
+    <input type="text" id="mar" value="<%= data[2] %>" hidden>
+    <input type="text" id="apr" value="<%= data[3] %>" hidden>
+    <input type="text" id="may" value="<%= data[4] %>" hidden>
+    <input type="text" id="jun" value="<%= data[5] %>" hidden>
+    <input type="text" id="jul" value="<%= data[6] %>" hidden>
+    <input type="text" id="aug" value="<%= data[7] %>" hidden>
+    <input type="text" id="sep" value="<%= data[8] %>" hidden>
+    <input type="text" id="oct" value="<%= data[9] %>" hidden>
+    <input type="text" id="nov" value="<%= data[10] %>" hidden>
+    <input type="text" id="dec" value="<%= data[11] %>" hidden>
+
+     
+    
+    
+    
+  </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+    <script>
+      let COD = '<%= totalCod %>',
+        Online = '<%= totalOnline %>'
+      Wallet = '<%= totalWallet  %>'
+      console.log(COD);
+      console.log(Online);
+      console.log(Wallet);
+  
+      var data = {
+        labels: ['COD', 'Online Payment', 'Wallet'],
+        datasets: [{
+          data: [COD, Online, Wallet],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+        }]
+      };
+  
+      var ctx = document.getElementById('monthChart').getContext('2d');
+      var myPieChart;
+  
+      document.addEventListener('DOMContentLoaded', function () {
+        myPieChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: data
+        });
+        
+      // Load annual data initially
+      filterData('week');
+      });
+    </script>
+  
+    <script>
+      const filterData = async (range) => {
+        try {
+          let totalData;
+  
+          if (range === 'week') {
+            console.log("hii");
+            totalData = await fetchWeekData();
+          } else if (range === 'month') {
+            totalData = await fetchMonthData();
+          } else if (range === 'year') {
+            totalData = await fetchYearData();
+          }
+  
+          updateChart(totalData);
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+  
+      const updateChart = (totalData) => {
+        var data = {
+          labels: ['COD', 'Online Payment', 'Wallet'],
+          datasets: [{
+            data: totalData,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+          }]
+        };
+  
+        var ctx = document.getElementById('monthChart').getContext('2d');
+        myPieChart.data = data;
+        myPieChart.update();
+      };
+  
+      const fetchWeekData = async () => {
+        const response = await fetch('/admin/chartWeek');
+        const data = await response.json();
+        console.log(data);
+        return data;
+      };
+  
+      const fetchMonthData = async () => {
+        const response = await fetch('/admin/chartMonth');
+        const data = await response.json();
+        console.log(data);
+        return data;
+      };
+  
+      const fetchYearData = async () => {
+        const response = await fetch('/admin/chartYear');
+        const data = await response.json();
+        console.log(data);
+        return data;
+      };
+    </script>
+ <!-- Your JavaScript code for initializing and updating the graph -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize an empty dataset
+    var weeklySalesData = {
+        labels: [],
+        datasets: [{
+            label: 'Weekly Sales',
+            data: [],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('weeklySalesGraph').getContext('2d');
+
+    // Create a new line chart using Chart.js
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: weeklySalesData,
+        options: {
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: weeklySalesData.labels, // Use labels from the dataset
+                    display: true
+                },
+                y: {
+                    beginAtZero: true,
+                    display: true
+                }
+            }
+        }
+    });
+
+    // Fetch dynamic data for the weekly sales graph
+    async function fetchWeeklySalesData() {
+        try {
+            // Replace with the actual endpoint to fetch weekly sales data
+            const response = await fetch('/admin/weeklySalesDataEndpoint');
+            const data = await response.json();
+
+            // Update chart data with fetched data
+            weeklySalesData.labels = data.labels;
+            weeklySalesData.datasets[0].data = data.salesData;
+
+            // Update the chart
+            myLineChart.update();
+        } catch (error) {
+            console.error('Error fetching weekly sales data:', error);
+        }
+    }
+
+    // Call the fetchWeeklySalesData function to initially load data
+    fetchWeeklySalesData();
+});
+
+
+</script>
+
+  
+  <%- include('../admin/layouts/adminfootbar') %>
